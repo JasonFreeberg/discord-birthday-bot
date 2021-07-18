@@ -1,6 +1,7 @@
 
 import datetime 
 import random
+from num2words import num2words
 
 
 class Friend():
@@ -32,7 +33,13 @@ class Friend():
 
     gift = random.choice(self.gift_ideas)
 
-    return f'{self.name} is turning {new_age} in two weeks on {formatted_birthday}. Maybe we should get him {gift}?'
+    if self.days_until_birthday % 7 == 0:
+      num = num2words(int(self.days_until_birthday/7))
+      time_until_birthday = f'{num} weeks'
+    else:
+      time_until_birthday = str(int(self.days_until_birthday))+' days'
+
+    return f'{self.name} is turning {new_age} in {time_until_birthday} on {formatted_birthday}. Maybe we should get him {gift}?'
 
 
 def create_message(name: str, birthdate: datetime.datetime):
