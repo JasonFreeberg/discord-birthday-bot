@@ -2,6 +2,8 @@
 import datetime 
 import random
 from num2words import num2words
+import requests
+import json
 
 
 class Friend():
@@ -42,8 +44,12 @@ class Friend():
     return f'{self.name} is turning {new_age} in {time_until_birthday} on {formatted_birthday}. Maybe we should get him {gift}?'
 
 
-def create_message(name: str, birthdate: datetime.datetime):
-    formatted_birthday = birthdate.strftime('%B %d')
-    new_age = int((datetime.datetime.today() - birthdate).days / 365)
+def read_json_file(file_path: str) -> list:
+  if file_path[0:4] == 'http':
+    response = requests.get(file_path)
+    birthday_data = json.load(response.content)
+  else:
+    with open(file_path) as json_file:
+        birthday_data = json.load(json_file)
 
-    return f'{name} is turning {new_age} in two weeks on {formatted_birthday}.'
+  return birthday_data['friends']

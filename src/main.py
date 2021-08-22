@@ -1,25 +1,25 @@
 import os
-from utils import create_message
 import requests
 import json
 import datetime
 from .utils import Friend
+from sys import argv
 
-'''
-- How to break this up so it's more testable
-- Can I use more declarative, map-style programming here over the list of friends?
 
-'''
+def main(friends_file_path: str):
+    """
+    Main entrypoint for the bot. Expects a file path to the location of the JSON file with the friends
+    information
+    """
 
-if __name__ == '__main__':
-    print('Runing application.')
+    print('Runing application...')
     
     BOT_TOKEN = 'Bot '+os.environ.get('BOT_TOKEN')
     CHANNEL_ID = os.environ.get('SERVER_ID')
     BASE_URL = 'https://discord.com/api/v9'
     TODAY = datetime.datetime.today()
 
-    with open('birthdays.json') as json_file:
+    with open(friends_file_path) as json_file:
         birthday_data = json.load(json_file)
 
         for friend_entry in birthday_data['friends']:
@@ -45,3 +45,9 @@ if __name__ == '__main__':
                     print('Birthday reminder sent for '+friend['name'])
 
 
+if __name__ == '__main__':
+  if len(argv) <= 1:
+    raise ValueError("You must specify the location of the JSON file with your friends' data.")
+  friends_file_path = argv[1]
+
+  main(friends_file_path)

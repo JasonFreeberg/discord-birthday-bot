@@ -1,0 +1,22 @@
+{
+  "date_format": "%Y-%m-%d",
+  "reminder_in_days": "14",
+  "friends": [
+      {
+          "name": "Joe Smith",
+          "birthdate": "2000-07-19",
+          "gift_ideas": [
+            "a dog",
+            "a watch"
+          ]
+      },
+      {
+        "name": "Joe Skywalker",
+        "birthdate": "1990-07-19",
+        "gift_ideas": [
+          "a lightsaber",
+          "the younglings"
+        ]
+      }
+  ]
+}
