@@ -23,5 +23,5 @@ jobs:
       - name: Run bot
         run: python main.py
         env:
-          BOT_TOKEN: '${{ secrets.BOT_TOKEN }}'
-          CHANNEL_ID: '${{ secrets.CHANNEL_ID }}'
+          BOT_TOKEN: '${{ secrets.PROD_BOT_TOKEN }}'    # Add secret for this!!!!
+          CHANNEL_ID: '${{ secrets.PROD_CHANNEL_ID }}'  # Add new secrets!!! :)
