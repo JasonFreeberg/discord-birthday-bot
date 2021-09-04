@@ -49,10 +49,10 @@ def main(friends_file_path: str):
                 )
 
                 if response.status_code >= 400:
-                    print('There was a problem sending the birthday message to '+friend['name'])
+                    print('There was a problem sending the birthday message to '+friend.name)
                     print(response.content)
                 else:
-                    print('Birthday reminder sent for '+friend['name'])
+                    print('Birthday reminder sent for '+friend.name)
 
 
 if __name__ == '__main__':
