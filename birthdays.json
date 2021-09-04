@@ -4,7 +4,7 @@
     "friends": [
         {
             "name": "Joe Smith",
-            "birthday": "2000-07-19"
+            "birthdate": "2000-07-19"
         }
     ]
 }

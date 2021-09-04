@@ -1,9 +1,7 @@
 name: Run birthday bot
 
 on:
-  schedule:
-    - cron: '0 14 * * *'  # every day at 2:00pm
-  workflow_dispatch:
+  pull_request:
 
 jobs:
   run:
@@ -20,8 +18,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run bot
-        run: python main.py
+      - run: pytest
         env:
-          BOT_TOKEN: '${{ secrets.PROD_BOT_TOKEN }}'    # Add secret for this!!!!
-          CHANNEL_ID: '${{ secrets.PROD_CHANNEL_ID }}'  # Add new secrets!!! :)
+          BOT_TOKEN: '${{ secrets.BOT_TOKEN }}'
+          CHANNEL_ID: '${{ secrets.CHANNEL_ID }}'
