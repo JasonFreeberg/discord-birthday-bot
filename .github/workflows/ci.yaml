@@ -19,9 +19,6 @@ jobs:
           pip install -r requirements.txt
 
       - run: pytest
-
-      - name: Run bot
-        run: python main.py
         env:
           BOT_TOKEN: '${{ secrets.BOT_TOKEN }}'
           CHANNEL_ID: '${{ secrets.CHANNEL_ID }}'
