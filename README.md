@@ -24,3 +24,10 @@ TODO: Screenshot here
 1. Run tests by running `pytest` from the project root.
 
 To contribute, make a PR and tag JasonFreeberg as a reviewer.
+
+## Registering the bot
+
+ToDo: Flush these instructions out. In the meantime..
+
+- https://discordpy.readthedocs.io/en/stable/discord.html
+- Copy the URL from those instructions above, pop the URL in your browser, select the server you want to register your Bot for!
