@@ -21,7 +21,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run bot
-        run: python main.py ${CIV_BOYS_DATA}
+        run: python main.py ${{ secrets.CIV_BOYS_DATA }}
         env:
           BOT_TOKEN: '${{ secrets.BOT_TOKEN }}'
           CHANNEL_ID: '${{ secrets.PROD_CHANNEL_ID }}'
