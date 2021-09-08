@@ -4,7 +4,10 @@
     "friends": [
         {
             "name": "Joe Smith",
-            "birthdate": "2000-07-19"
+            "birthdate": "2000-07-19",
+            "gift_ideas": [
+                "a laptop"
+            ]
         }
     ]
 }
