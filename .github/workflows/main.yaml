@@ -2,7 +2,7 @@ name: Run birthday bot
 
 on:
   schedule:
-    - cron: '0 14 * * *'  # every day at 2:00pm
+    - cron: '0 18 * * *'  # every day at 2:00pm
   workflow_dispatch:
 
 jobs:
@@ -21,7 +21,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run bot
-        run: python main.py ${{ secrets.CIV_BOYS_DATA }}
+        run: python src/main.py ${{ secrets.CIV_BOYS_DATA }}
         env:
           BOT_TOKEN: '${{ secrets.BOT_TOKEN }}'
           CHANNEL_ID: '${{ secrets.PROD_CHANNEL_ID }}'
