@@ -2,7 +2,7 @@ import os
 import requests
 import json
 import datetime
-from .utils import Friend
+from utils import Friend
 from sys import argv
 
 
