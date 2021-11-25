@@ -2,7 +2,7 @@ import os
 import requests
 import json
 import datetime
-from utils import Friend
+from utils import Friend, read_json_file
 from sys import argv
 
 
@@ -12,7 +12,7 @@ def main(friends_file_path: str):
     information
     """
 
-    print('Runing application...')
+    print('Starting bot...')
     
     BOT_TOKEN = os.environ.get('BOT_TOKEN')
     CHANNEL_ID = os.environ.get('CHANNEL_ID')
@@ -25,35 +25,44 @@ def main(friends_file_path: str):
     BOT_TOKEN = 'Bot '+BOT_TOKEN
     BASE_URL = 'https://discord.com/api/v9'
     TODAY = datetime.datetime.today()
+    
+    birthday_data = read_json_file(friends_file_path)
 
-    with open(friends_file_path) as json_file:
-        birthday_data = json.load(json_file)
+    if len(birthday_data['friends']) < 1: 
+        raise ValueError('No friend objects found in the list of friends. There was likely a problem reading the file.')
+    
+    print(f"Data found for {len(birthday_data['friends'])} friends.")
 
-        if len(birthday_data['friends']) < 1: 
-            raise ValueError('No friend objects found in the list of friends. There was likely a problem reading the file.')
+    successful_send_count = 0
+    failed_send_count = 0
+    for friend_entry in birthday_data['friends']:
+        friend = Friend.from_dict(friend_entry)
 
-        for friend_entry in birthday_data['friends']:
-            friend = Friend.from_dict(friend_entry)
+        if friend.days_until_birthday == int(birthday_data['reminder_in_days']):
 
-            if friend.days_until_birthday == int(birthday_data['reminder_in_days']):
+            response = requests.post(
+                BASE_URL+'/channels/'+CHANNEL_ID+'/messages',
+                headers={
+                    'Authorization': BOT_TOKEN,
+                    'Content-Type': 'application/json'
+                },
+                data = json.dumps({
+                    "content": friend.get_birthday_message()
+                })
+            )
 
-                response = requests.post(
-                    BASE_URL+'/channels/'+CHANNEL_ID+'/messages',
-                    headers={
-                        'Authorization': BOT_TOKEN,
-                        'Content-Type': 'application/json'
-                    },
-                    data = json.dumps({
-                        "content": friend.get_birthday_message()
-                    })
-                )
+            if response.status_code >= 400:
+                print('There was a problem sending the birthday reminder for '+friend.name)
+                print(response.content)
+                failed_send_count += 1
+            else:
+                print('Birthday reminder sent for '+friend.name)
+                successful_send_count += 1
 
-                if response.status_code >= 400:
-                    print('There was a problem sending the birthday message to '+friend.name)
-                    print(response.content)
-                else:
-                    print('Birthday reminder sent for '+friend.name)
-
+    print('Bot run completed...')
+    print(f'Total reminders sent: {successful_send_count+failed_send_count}')
+    print(f'Reminders successfully sent: {successful_send_count}')
+    print(f'Reminders which failed to send: {failed_send_count}')
 
 if __name__ == '__main__':
   if len(argv) <= 1:
