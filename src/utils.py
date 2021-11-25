@@ -45,11 +45,14 @@ class Friend():
 
 
 def read_json_file(file_path: str) -> list:
+  """
+  Reads friends JSON file from URL or file path.
+  """
   if file_path[0:4] == 'http':
     response = requests.get(file_path)
-    birthday_data = json.load(response.content)
+    birthday_data = response.json()
   else:
     with open(file_path) as json_file:
-        birthday_data = json.load(json_file)
+      birthday_data = json.load(json_file)
 
-  return birthday_data['friends']
+  return birthday_data
