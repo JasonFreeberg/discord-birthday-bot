@@ -24,7 +24,6 @@ def main(friends_file_path: str):
 
     BOT_TOKEN = 'Bot '+BOT_TOKEN
     BASE_URL = 'https://discord.com/api/v9'
-    TODAY = datetime.datetime.today()
     
     birthday_data = read_json_file(friends_file_path)
 

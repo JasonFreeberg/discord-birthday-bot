@@ -7,6 +7,10 @@ import json
 
 
 class Friend():
+  """
+  A class representing a friend object from birthdays.json, with associated data and utility methods.
+  """
+  
   name = ''
   birthdate = None
   birthdate = None
@@ -23,13 +27,22 @@ class Friend():
   
   @classmethod
   def from_dict(cls, friend: dict):
+    """
+    Alternative constructor to instantiate the class from a dictionary. 
+    """
     return cls(friend['name'], friend['birthdate'], friend['gift_ideas'])
 
   @property
   def days_until_birthday(self):
+    """
+    The number of days between now and the friend's birthday
+    """
     return (self.birthday - self.TODAY).days
 
   def get_birthday_message(self):
+    """
+    Returns the formatted reminder message for posting on Discord channel. 
+    """
     formatted_birthday = self.birthdate.strftime('%B %d')
     new_age = int((self.TODAY - self.birthdate).days / 365)
 
