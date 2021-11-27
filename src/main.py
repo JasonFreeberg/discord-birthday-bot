@@ -31,11 +31,13 @@ def main(friends_file_path: str):
         raise ValueError('No friend objects found in the list of friends. There was likely a problem reading the file.')
     
     print(f"Data found for {len(birthday_data['friends'])} friends.")
+    print(f"Sending {', '.join(birthday_data['reminders_in_days'])} day reminders ")
 
     successful_send_count = 0
     failed_send_count = 0
     for friend_entry in birthday_data['friends']:
         friend = Friend.from_dict(friend_entry)
+        print(f"{friend.name}'s birthday is in {friend.days_until_birthday} days.")
         
         for reminder in birthday_data['reminders_in_days']:
             if friend.days_until_birthday == int(reminder):
@@ -52,11 +54,11 @@ def main(friends_file_path: str):
                 )
 
                 if response.status_code >= 400:
-                    print('There was a problem sending the birthday reminder for '+friend.name)
+                    print(f'\tThere was a problem sending the birthday reminder for {friend.name}.')
                     print(response.content)
                     failed_send_count += 1
                 else:
-                    print('Birthday reminder sent for '+friend.name)
+                    print(f'\tBirthday reminder sent for {friend.name}.')
                     successful_send_count += 1
 
     print('Bot run completed. Summary:')
