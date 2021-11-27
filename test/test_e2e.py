@@ -14,10 +14,6 @@ TEST_DATA_FILE = join(os.getcwd(),'temp','test-data.json')
 
 def test_e2e():
 
-    # Can pull out the test data like this, add another person, add 1 or 2 more reminders, then run it at frozen times in method below.
-    # Then beyond checking the messages sent to discord, I can add "days_until_next_message" or something in the summary info dict, and 
-    # also use that to check
-
     with freeze_time(FROZEN_TIME):
         
         DAYS_UNTIL_BIRTHDAY1 = 14
