@@ -19,10 +19,10 @@ class Friend():
   gift_ideas = []
 
   def __init__(self, name: str, birthdate: str, gift_ideas: list, date_format='%Y-%m-%d'):
-    self.TODAY = datetime.datetime.today()
+    self.TODAY = datetime.date.today()
     self.name = name
-    self.birthdate = datetime.datetime.strptime(birthdate, date_format)
-    self.birthday = datetime.datetime(self.TODAY.year, self.birthdate.month, self.birthdate.day)
+    self.birthdate = datetime.datetime.strptime(birthdate, date_format).date()
+    self.birthday = datetime.date(self.TODAY.year, self.birthdate.month, self.birthdate.day)
     self.gift_ideas = gift_ideas
   
   @classmethod
@@ -35,7 +35,7 @@ class Friend():
   @property
   def days_until_birthday(self):
     """
-    The number of days between now and the friend's birthday
+    The number of days between now and the friend's birthday. Does not take time (hours/minutes) into account, only the dates.
     """
     return (self.birthday - self.TODAY).days
 

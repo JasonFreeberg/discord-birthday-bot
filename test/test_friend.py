@@ -39,3 +39,9 @@ def test_days_until_birthday():
     friend = Friend(name, birthday, gift_ideas)
 
     assert friend.days_until_birthday == 14
+  
+  # Test half day
+  with freeze_time(FROZEN_TIME+' 12:30:30'):
+    friend = Friend(name, birthday, gift_ideas)
+
+    assert friend.days_until_birthday == 14  
