@@ -36,32 +36,39 @@ def main(friends_file_path: str):
     failed_send_count = 0
     for friend_entry in birthday_data['friends']:
         friend = Friend.from_dict(friend_entry)
+        
+        for reminder in birthday_data['reminders_in_days']:
+            if friend.days_until_birthday == int(reminder):
 
-        if friend.days_until_birthday == int(birthday_data['reminder_in_days']):
+                response = requests.post(
+                    BASE_URL+'/channels/'+CHANNEL_ID+'/messages',
+                    headers={
+                        'Authorization': BOT_TOKEN,
+                        'Content-Type': 'application/json'
+                    },
+                    data = json.dumps({
+                        "content": friend.get_birthday_message()
+                    })
+                )
 
-            response = requests.post(
-                BASE_URL+'/channels/'+CHANNEL_ID+'/messages',
-                headers={
-                    'Authorization': BOT_TOKEN,
-                    'Content-Type': 'application/json'
-                },
-                data = json.dumps({
-                    "content": friend.get_birthday_message()
-                })
-            )
+                if response.status_code >= 400:
+                    print('There was a problem sending the birthday reminder for '+friend.name)
+                    print(response.content)
+                    failed_send_count += 1
+                else:
+                    print('Birthday reminder sent for '+friend.name)
+                    successful_send_count += 1
 
-            if response.status_code >= 400:
-                print('There was a problem sending the birthday reminder for '+friend.name)
-                print(response.content)
-                failed_send_count += 1
-            else:
-                print('Birthday reminder sent for '+friend.name)
-                successful_send_count += 1
+    print('Bot run completed. Summary:')
+    print(f'\tTotal reminders sent: {successful_send_count+failed_send_count}')
+    print(f'\tReminders successfully sent: {successful_send_count}')
+    print(f'\tReminders which failed to send: {failed_send_count}')
 
-    print('Bot run completed...')
-    print(f'Total reminders sent: {successful_send_count+failed_send_count}')
-    print(f'Reminders successfully sent: {successful_send_count}')
-    print(f'Reminders which failed to send: {failed_send_count}')
+    return dict(
+        successful_send_count = successful_send_count,
+        failed_send_count = failed_send_count,
+        total_send_count = successful_send_count+failed_send_count
+    )
 
 if __name__ == '__main__':
   if len(argv) <= 1:
